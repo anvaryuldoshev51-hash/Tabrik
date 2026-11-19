@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tabriklayman!</title>
+<style>
+:root{color-scheme:dark;--bg1:#1a2750;--bg2:#0a0f1e;--gold:#ffd166;--fg:#f4f6ff;--muted:#b8c1ec;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg2)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% 25%,var(--bg1),var(--bg2) 70%);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
+.stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+.stars i{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;opacity:.15;animation:tw 3s ease-in-out infinite}
+@keyframes tw{50%{opacity:.8}}
+.wrap{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:28px 22px 40px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
+.cert{width:100%;padding:8px 4px;border-top:1px solid rgba(255,209,102,.6);border-bottom:1px solid rgba(255,209,102,.6);color:var(--gold);font-family:Georgia,"Times New Roman",serif;font-size:clamp(15px,4.6vw,22px);letter-spacing:.32em;text-transform:uppercase}
+.cup{font-size:clamp(84px,26vw,130px);line-height:1;filter:drop-shadow(0 0 28px rgba(255,209,102,.55));animation:pop .9s cubic-bezier(.2,1.6,.4,1) both,bob 3s ease-in-out 1s infinite}
+h1{margin:0;font-size:clamp(36px,12vw,60px);background:linear-gradient(100deg,#ffd166 30%,#fff3c4 50%,#ffd166 70%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:pop .9s .2s cubic-bezier(.2,1.6,.4,1) both,shine 4s 1.2s linear infinite}
+@keyframes shine{to{background-position:-220% 0}}
+.to{font-size:15px;color:var(--muted)}
+.name{display:inline-block;min-width:8ch;margin-left:6px;padding:2px 12px;font:600 clamp(22px,7vw,30px) Georgia,serif;font-style:italic;color:var(--fg);border-bottom:1px dashed var(--gold);outline:none}
+.name:focus{background:rgba(255,209,102,.1)}
+.lead{margin:0;font-size:clamp(20px,6vw,28px)}
+.ring{position:relative;width:170px;height:170px;margin:6px 0}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:10;stroke-linecap:round}
+.ring .t{stroke:rgba(255,255,255,.1)}
+.ring .v{stroke:var(--gold);stroke-dasharray:408;stroke-dashoffset:408;transition:stroke-dashoffset 2s cubic-bezier(.2,.8,.2,1) .6s}
+.ring b{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:44px;color:var(--gold);line-height:1}
+.ring b span{font-size:14px;font-weight:400;color:var(--muted);margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chips div{padding:7px 14px;border-radius:999px;border:1px solid rgba(255,209,102,.5);color:var(--gold);font-size:15px}
+.msg{max-width:22em;min-height:3.4em;margin:6px 0 0;font-size:clamp(17px,4.8vw,21px);font-style:italic;color:var(--muted);transition:opacity .4s}
+.card{width:100%;margin-top:6px;padding:16px 18px;border:1px solid rgba(184,193,236,.25);border-radius:14px;background:rgba(255,255,255,.04);font-size:16px;line-height:1.6;color:var(--fg)}
+.sign{display:flex;justify-content:center;width:100%;margin-top:14px;font-size:14px;color:var(--muted)}
+.sign div{padding-top:6px}
+button{margin-top:10px;font:inherit;font-size:17px;padding:13px 26px;border-radius:999px;border:1px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer}
+button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+small{color:var(--muted);font-size:14px}
+@keyframes pop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+@keyframes bob{50%{transform:translateY(-10px) rotate(-3deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="stars" id="st" aria-hidden="true"></div>
+<canvas id="c"></canvas>
+<div class="wrap">
+ <div class="cert">Faxriy yorliq</div>
+ <div class="cup">🏆</div>
+ <h1>Tabriklayman!</h1>
+ <div class="to">Gʻolib: <span class="name" id="nm" contenteditable="true" spellcheck="false" aria-label="Gʻolib ismi">Abdugʻaniyeva Eʼzoza</span></div>
+ <p class="lead">Siz meni yutdingiz 🎉</p>
+ <div class="ring" role="img" aria-label="55 tadan 18 ta">
+  <svg viewBox="0 0 150 150"><circle class="t" cx="75" cy="75" r="65"/><circle class="v" id="rv" cx="75" cy="75" r="65"/></svg>
+  <b><em id="n" style="font-style:normal">0</em><span>55 tadan</span></b>
+ </div>
+ <div class="chips"><div>🥇 1-oʻrin</div><div>🧠 Zukkolik</div><div>🎯 Aniqlik</div></div>
+ <div class="msg" id="msg"></div>
+ <div class="card">Ushbu yorliq bellashuvda koʻrsatilgan topqirlik, sabr va gʻalaba uchun berildi. Tan olaman: bu gʻalaba munosib!</div>
+ <div class="sign"><div>Sana: <span id="d"></span></div></div>
+ <button id="more">Yana konfeti 🎊</button>
+ <small>Ekranga tegsangiz, konfeti yogʻadi</small>
+</div>
+<script>
+(function(){
+var st=document.getElementById('st');
+for(var k=0;k<40;k++){var s=document.createElement('i');s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDelay=(Math.random()*3)+'s';st.appendChild(s);}
+document.getElementById('d').textContent=new Date().toLocaleDateString('uz-UZ',{day:'numeric',month:'long',year:'numeric'});
+var rv=document.getElementById('rv'),n=document.getElementById('n');
+setTimeout(function(){rv.style.strokeDashoffset=408*(1-18/55);},100);
+var i=0,iv=setInterval(function(){i++;n.textContent=i;if(i>=18)clearInterval(iv);},110);
+
+var cv=document.getElementById('c'),ctx=cv.getContext('2d'),W,H;
+function rs(){var d=devicePixelRatio||1;W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);}
+addEventListener('resize',rs);rs();
+var cols=['#ffd166','#ef476f','#06d6a0','#118ab2','#f78c6b','#c77dff'],bits=[];
+function burst(x,y,c,sp,p){for(var j=0;j<c;j++){var a=-Math.PI/2+(Math.random()-.5)*sp,v=p*(.5+Math.random()*.7);bits.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,w:6+Math.random()*6,h:3+Math.random()*4,r:Math.random()*6.28,vr:(Math.random()-.5)*.3,c:cols[(Math.random()*cols.length)|0]});}}
+function show(){burst(0,H,60,1.1,H/26);burst(W,H,60,1.1,H/26);burst(W/2,H*.9,40,1.6,H/30);}
+show();setInterval(show,6000);
+document.getElementById('more').addEventListener('click',show);
+addEventListener('pointerdown',function(e){if(e.target.id==='nm')return;burst(e.clientX,e.clientY,50,6.28,9);});
+(function f(){ctx.clearRect(0,0,W,H);bits=bits.filter(function(b){return b.y<H+20;});
+bits.forEach(function(b){b.vy+=.22;b.vx*=.992;b.x+=b.vx;b.y+=b.vy;b.r+=b.vr;ctx.save();ctx.translate(b.x,b.y);ctx.rotate(b.r);ctx.fillStyle=b.c;ctx.fillRect(-b.w/2,-b.h/2,b.w,b.h);ctx.restore();});
+requestAnimationFrame(f);})();
+
+var m=['Gʻalaba munosib boʻldi, tabriklayman! 👏','Ajoyib natija, sizdan shuni kutgandim 😊','Rahmat, juda yaxshi bellashuv boʻldi 🤝','Keyingi safar qasos olaman… balki 😄'],mi=0,el=document.getElementById('msg');
+el.textContent=m[0];
+setInterval(function(){el.style.opacity=0;setTimeout(function(){mi=(mi+1)%m.length;el.textContent=m[mi];el.style.opacity=1;},400);},4500);
+})();
+</script>
+</body>
+</html>
